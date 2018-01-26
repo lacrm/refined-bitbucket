@@ -1,12 +1,12 @@
-const Mousetrap = require('mousetrap');
+import elementReady from 'element-ready';
 
-const waitForRender = require('../wait-for-render');
+const Mousetrap = require('mousetrap');
 
 /**
  * Adds useful keymappings to pull requests on bitbucket.org
  * @module keymap
  */
-const PrKeyMap = (function($) {
+const PrKeyMap = (function() {
     'use strict';
 
     /**
@@ -75,7 +75,7 @@ const PrKeyMap = (function($) {
      * selector.
      */
     self.initComments = function(selector = '.bb-patch') {
-        waitForRender(selector).then(() => {
+        elementReady(selector).then(() => {
             self.comments = document.querySelectorAll(self.commentSelector);
         });
     };
@@ -183,14 +183,8 @@ const PrKeyMap = (function($) {
     };
 
     return self;
-})(jQuery);
-
-module.exports = (() => {
-    return {
-        init
-    };
-
-    function init() {
-        PrKeyMap.init(Mousetrap);
-    }
 })();
+
+export function init() {
+    PrKeyMap.init(Mousetrap);
+}
